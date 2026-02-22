@@ -4,6 +4,7 @@ import com.intellij.codeInspection.*
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElementVisitor
+import org.geodesdk.clion.GeodeModJsonService
 import org.geodesdk.clion.InspectionsMessageBundle
 import org.geodesdk.clion.utils.isCppFile
 
@@ -15,6 +16,7 @@ class GeodeDynamicCastInspection : LocalInspectionTool() {
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) : PsiElementVisitor =
         object : PsiElementVisitor() {
             override fun visitElement(element: com.intellij.psi.PsiElement) {
+                if (!GeodeModJsonService.getInstance(element.project).isGeodeMod()) return
                 if (element.firstChild != null) return
                 if (!element.containingFile.isCppFile()) return
                 if (element.text != "dynamic_cast") return

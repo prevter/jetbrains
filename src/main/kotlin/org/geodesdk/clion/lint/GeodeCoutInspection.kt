@@ -5,6 +5,7 @@ import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
+import org.geodesdk.clion.GeodeModJsonService
 import org.geodesdk.clion.InspectionsMessageBundle
 import org.geodesdk.clion.utils.isCppFile
 
@@ -16,6 +17,7 @@ class GeodeCoutInspection : LocalInspectionTool() {
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) : PsiElementVisitor =
         object : PsiElementVisitor() {
             override fun visitElement(element: PsiElement) {
+                if (!GeodeModJsonService.getInstance(element.project).isGeodeMod()) return
                 if (element.firstChild != null) return
                 if (!element.containingFile.isCppFile()) return
                 if (element.text != "cout") return
