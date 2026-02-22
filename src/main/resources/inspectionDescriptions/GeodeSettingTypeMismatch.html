@@ -1,0 +1,21 @@
+<html>
+<body>
+<p>Reports C++ type arguments that do not match the setting type declared in mod.json.</p>
+<p>
+    The inspection compares the template type used in <code>getSettingValue</code> or <code>setSettingValue</code> with the
+    setting type in mod.json and warns when they are incompatible.
+</p>
+<p>
+    Example:
+</p>
+<pre><code>
+// mod.json declares "enable_feature" as type "bool"
+auto value = Mod::get()->getSettingValue&lt;int&gt;("enable_feature");
+
+// mod.json declares "accent_color" as type "color"
+Mod::get()->setSettingValue&lt;std::string&gt;("accent_color", "red");
+</code></pre>
+<!-- tooltip end -->
+<p>Update the C++ type to match the setting type, or update mod.json if the setting type is incorrect.</p>
+</body>
+</html>

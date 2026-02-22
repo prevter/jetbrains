@@ -23,7 +23,6 @@
     ]]></description>
 
     <depends>com.intellij.modules.compose</depends>
-    <depends>com.intellij.modules.lsp</depends>
     <depends>com.intellij.modules.json</depends>
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.cpp-plugin-capable</depends>
@@ -65,5 +64,19 @@
                          level="ERROR"
                          implementationClass="org.geodesdk.clion.lint.GeodeDynamicCastInspection"
                          key="inspection.geode.dynamic_cast.display.name"/>
+        <localInspection language="" bundle="messages.InspectionsBundle"
+                         shortName="GeodeUnknownSetting"
+                         groupName="Geode SDK"
+                         enabledByDefault="true"
+                         level="WARNING"
+                         implementationClass="org.geodesdk.clion.lint.GeodeUnknownSettingInspection"
+                         key="inspection.geode.unknown_setting.display.name"/>
+        <localInspection language="" bundle="messages.InspectionsBundle"
+                         shortName="GeodeSettingTypeMismatch"
+                         groupName="Geode SDK"
+                         enabledByDefault="true"
+                         level="WARNING"
+                         implementationClass="org.geodesdk.clion.lint.GeodeSettingTypeMismatchInspection"
+                         key="inspection.geode.setting_type_mismatch.display.name"/>
     </extensions>
 </idea-plugin>

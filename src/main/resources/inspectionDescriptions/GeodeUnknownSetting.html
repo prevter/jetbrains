@@ -1,0 +1,21 @@
+<html>
+<body>
+<p>Reports Geode setting names that are not defined in the module's mod.json.</p>
+<p>
+    This inspection flags calls to <code>getSettingValue</code> or <code>setSettingValue</code> that reference a missing
+    setting, or a setting that is declared as a <code>title</code> entry in mod.json.
+</p>
+<p>
+    Example:
+</p>
+<pre><code>
+// mod.json has no setting named "missing_setting"
+auto value = Mod::get()->getSettingValue&lt;int&gt;("missing_setting");
+
+// mod.json defines "section_title" as a title entry
+Mod::get()->setSettingValue&lt;bool&gt;("section_title", true);
+</code></pre>
+<!-- tooltip end -->
+<p>Define the missing setting in mod.json or use a valid, non-title setting name.</p>
+</body>
+</html>
