@@ -1,0 +1,24 @@
+<html>
+<body>
+Reports usage of <code>std::stoi</code> and similar string-to-number conversion functions in C++ code.
+<p>
+    These functions (<code>stoi</code>, <code>stol</code>, <code>stoll</code>, <code>stoul</code>, <code>stoull</code>, <code>stof</code>, <code>stod</code>, <code>stold</code>)
+    are rejected by the Geode mod index and should be replaced with <code>geode::utils::numFromString</code> for better error handling.
+</p>
+<p>
+    Example:
+</p>
+<pre><code>
+// Bad - will be rejected
+int value = std::stoi(input);
+
+// Good - use Geode's safe conversion
+auto result = geode::utils::numFromString&lt;int&gt;(input);
+if (result.isOk()) {
+    int value = result.unwrap();
+}
+</code></pre>
+<!-- tooltip end -->
+<p>The Geode SDK provides <code>numFromString</code> as a safer alternative that returns a Result type for proper error handling.</p>
+</body>
+</html>

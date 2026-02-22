@@ -1,0 +1,23 @@
+<html>
+<body>
+Reports usage of <code>std::cout</code> in C++ code.
+<p>
+    When developing Geode mods, you should use the logging methods from the <code>geode::log</code> namespace instead of <code>std::cout</code>
+    for proper logging integration with the Geode framework.
+</p>
+<p>
+    Example:
+</p>
+<pre><code>
+// Bad - not integrated with Geode logging
+std::cout << "Hello World" << std::endl;
+
+// Good - use Geode's logging system
+geode::log::info("Hello World");
+geode::log::warn("Warning message");
+geode::log::error("Error message");
+</code></pre>
+<!-- tooltip end -->
+<p>The Geode logging system provides better integration with the mod loader and supports different log levels (info, warn, error, debug).</p>
+</body>
+</html>

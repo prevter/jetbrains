@@ -1,0 +1,55 @@
+<idea-plugin>
+    <id>org.geode-sdk.clion</id>
+    <name>Geode</name>
+    <vendor url="https://geode-sdk.org/">Geode Team</vendor>
+
+    <description><![CDATA[
+        Support for Geode SDK, the Geometry Dash modding framework.
+        Features useful utilities for developing Geometry Dash mods.
+    ]]></description>
+
+    <depends>com.intellij.modules.compose</depends>
+    <depends>com.intellij.modules.lsp</depends>
+    <depends>com.intellij.modules.json</depends>
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.cpp-plugin-capable</depends>
+    <depends>Git4Idea</depends>
+
+    <resource-bundle>messages.InspectionsBundle</resource-bundle>
+
+    <extensions defaultExtensionNs="JavaScript.JsonSchema">
+        <ProviderFactory implementation="org.geodesdk.clion.ModSchemaProvider"/>
+    </extensions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <colorProvider implementation="org.geodesdk.clion.CCColorProvider"/>
+
+        <annotator language="C++" implementationClass="org.geodesdk.clion.GDColorTagAnnotation"/>
+        <annotator language="ObjectiveC" implementationClass="org.geodesdk.clion.GDColorTagAnnotation"/>
+        <annotator language="Markdown" implementationClass="org.geodesdk.clion.GDColorTagAnnotation"/>
+
+        <directoryProjectGenerator implementation="org.geodesdk.clion.newproject.GeodeProjectGenerator"/>
+
+        <localInspection language="" bundle="messages.InspectionsBundle"
+                         shortName="GeodeCout"
+                         groupName="Geode SDK"
+                         enabledByDefault="true"
+                         level="WARNING"
+                         implementationClass="org.geodesdk.clion.lint.GeodeCoutInspection"
+                         key="inspection.geode.cout.display.name"/>
+        <localInspection language="" bundle="messages.InspectionsBundle"
+                         shortName="GeodeStoi"
+                         groupName="Geode SDK"
+                         enabledByDefault="true"
+                         level="ERROR"
+                         implementationClass="org.geodesdk.clion.lint.GeodeStoiInspection"
+                         key="inspection.geode.stoi.display.name"/>
+        <localInspection language="" bundle="messages.InspectionsBundle"
+                         shortName="GeodeDynamicCast"
+                         groupName="Geode SDK"
+                         enabledByDefault="true"
+                         level="ERROR"
+                         implementationClass="org.geodesdk.clion.lint.GeodeDynamicCastInspection"
+                         key="inspection.geode.dynamic_cast.display.name"/>
+    </extensions>
+</idea-plugin>

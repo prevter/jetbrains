@@ -1,0 +1,21 @@
+<html>
+<body>
+Reports usage of <code>dynamic_cast</code> in C++ code.
+<p>
+    The <code>dynamic_cast</code> operator is rejected by the Geode mod index and must be replaced with <code>geode::cast::typeinfo_cast</code>.
+    This inspection provides a quick fix to automatically perform the replacement.
+</p>
+<p>
+    Example:
+</p>
+<pre><code>
+// Bad - will be rejected
+auto* derived = dynamic_cast<DerivedClass*>(basePtr);
+
+// Good - use Geode's type-safe cast
+auto* derived = geode::cast::typeinfo_cast<DerivedClass*>(basePtr);
+</code></pre>
+<!-- tooltip end -->
+<p>The Geode SDK's <code>typeinfo_cast</code> provides similar functionality to <code>dynamic_cast</code> while being compatible with the mod index requirements.</p>
+</body>
+</html>

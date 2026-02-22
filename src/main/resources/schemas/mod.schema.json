@@ -1,0 +1,1286 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://geode-sdk.org/schemas/mod.schema.json",
+    "title": "Geode Mod",
+    "description": "Configuration options for a Geode mod. Specifies metadata like the name and version, as well as things like settings and resources",
+    "type": "object",
+    "definitions": {
+        "ModID": {
+            "type": "string",
+            "pattern": "^[a-z0-9\\-_]+\\.[a-z0-9\\-_]+$"
+        },
+        "Version": {
+            "type": "string",
+            "pattern": "^v?\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta|prerelease|pr)(?:\\.\\d+)?)?$"
+        },
+        "VersionComparable": {
+            "oneOf": [
+                {
+                    "type": "string",
+                    "pattern": "^(>|<|>=|<=)?v?\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta|prerelease|pr)(?:\\.\\d+)?)?$"
+                },
+                {
+                    "type": "string",
+                    "pattern": "^\\*$"
+                }
+            ]
+        },
+        "Tag": {
+            "type": "string",
+            "enum": [
+                "universal",
+                "gameplay",
+                "editor",
+                "offline",
+                "online",
+                "enhancement",
+                "music",
+                "interface",
+                "bugfix",
+                "utility",
+                "performance",
+                "customization",
+                "content",
+                "developer",
+                "cheat",
+                "paid",
+                "joke",
+                "modtober24",
+                "modtober25",
+                "api"
+            ]
+        },
+        "GDVersion": {
+            "oneOf": [
+                {
+                    "type": "string",
+                    "pattern": "^\\d+\\.\\d+$"
+                },
+                {
+                    "type": "string",
+                    "pattern": "^\\*$"
+                }
+            ]
+        },
+        "ShortPlatformIDNoArch": {
+            "type": "string",
+            "enum": [
+                "win",
+                "mac",
+                "android",
+                "ios"
+            ]
+        },
+        "ShortPlatformIDArch": {
+            "type": "string",
+            "enum": [
+                "win",
+                "mac",
+                "mac-arm",
+                "mac-intel",
+                "android32",
+                "android64",
+                "ios"
+            ]
+        },
+        "ShortPlatformID": {
+            "oneOf": [
+                {
+                    "$ref": "#/definitions/ShortPlatformIDNoArch"
+                },
+                {
+                    "$ref": "#/definitions/ShortPlatformIDArch"
+                }
+            ]
+        },
+        "ShortPlatformIDOrGeneric": {
+            "oneOf": [
+                {
+                    "$ref": "#/definitions/ShortPlatformIDNoArch"
+                },
+                {
+                    "$ref": "#/definitions/ShortPlatformIDArch"
+                },
+                {
+                    "type": "string",
+                    "enum": [
+                        "desktop",
+                        "mobile"
+                    ]
+                }
+            ]
+        },
+        "ColorRGB": {
+            "oneOf": [
+                {
+                    "type": "string",
+                    "pattern": "^#?([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+                },
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 255
+                    },
+                    "minItems": 3,
+                    "maxItems": 3
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "r": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 255
+                        },
+                        "g": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 255
+                        },
+                        "b": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 255
+                        }
+                    },
+                    "required": [
+                        "r",
+                        "g",
+                        "b"
+                    ],
+                    "additionalProperties": false
+                }
+            ]
+        },
+        "ColorRGBA": {
+            "oneOf": [
+                {
+                    "type": "string",
+                    "pattern": "^#?([A-Fa-f0-9]{8}|[A-Fa-f0-9]{4})$"
+                },
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 255
+                    },
+                    "minItems": 4,
+                    "maxItems": 4
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "r": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 255
+                        },
+                        "g": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 255
+                        },
+                        "b": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 255
+                        },
+                        "a": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 255
+                        }
+                    },
+                    "required": [
+                        "r",
+                        "g",
+                        "b",
+                        "a"
+                    ],
+                    "additionalProperties": false
+                }
+            ]
+        },
+        "Dependency": {
+            "oneOf": [
+                {
+                    "$ref": "#/definitions/VersionComparable"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "version": {
+                            "$ref": "#/definitions/VersionComparable",
+                            "description": "Version of the dependency. Geode assumes the mod follows semver (https://semver.org); this means that versions \"1.5.3\" and \"1.4.0\" will be considered valid for dependency version \"1.4.5\" but \"2.1.0\" would not be valid."
+                        },
+                        "required": {
+                            "type": "boolean",
+                            "description": "Whether this dependency is required for the mod to work"
+                        },
+                        "platforms": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ShortPlatformIDOrGeneric"
+                            },
+                            "description": "If this dependency should only be on certain platforms, specify this property; by default, Geode assumes dependencies are used on all platforms."
+                        },
+                        "settings": {
+                            "type": "object",
+                            "description": "Dependency-specific settings, if it takes any."
+                        }
+                    },
+                    "required": [
+                        "version"
+                    ],
+                    "additionalProperties": false
+                }
+            ]
+        },
+        "Dependencies": {
+            "description": "List of mods this mod depends on. See the docs (https://docs.geode-sdk.org/mods/dependencies) for more information.",
+            "oneOf": [
+                {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/Dependency"
+                    }
+                },
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "$ref": "#/definitions/ModID",
+                                "description": "ID of the incompatibility.",
+                                "deprecated": true,
+                                "deprecationMessage": "Use the object-style \"incompatibilities\" key instead"
+                            },
+                            "version": {
+                                "$ref": "#/definitions/Version",
+                                "description": "Version of the incompatibility. Geode assumes the mod follows semver (https://semver.org); this means that versions \"1.5.3\" and \"1.4.0\" will be considered valid for incompatibility version \"1.4.5\" but \"2.1.0\" would not be valid."
+                            },
+                            "importance": {
+                                "oneOf": [
+                                    {
+                                        "const": "breaking",
+                                        "description": "This mod does not work with the incompatible mod."
+                                    },
+                                    {
+                                        "const": "conflicting",
+                                        "description": "This mod might work with the incompatible mod, but there will be bugs."
+                                    },
+                                    {
+                                        "const": "superseded",
+                                        "description": "This mod is a newer version/alternative for the incompatible mod. Geode will present this to the user and allow them to automatically migrate from the old mod to this one."
+                                    }
+                                ],
+                                "description": "What kind of an incompatibility this is."
+                            },
+                            "platforms": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/definitions/ShortPlatformIDOrGeneric"
+                                },
+                                "description": "If this incompatibility should only be on certain platforms, specify this property; by default, Geode assumes incompatibilities are used on all platforms."
+                            }
+                        },
+                        "required": [
+                            "id",
+                            "version",
+                            "importance"
+                        ],
+                        "additionalProperties": false
+                    }
+                }
+            ]
+        },
+        "Incompatibility": {
+            "oneOf": [
+                {
+                    "$ref": "#/definitions/VersionComparable"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "version": {
+                            "$ref": "#/definitions/VersionComparable",
+                            "description": "Version of the incompatibility. Geode assumes the mod follows semver (https://semver.org); this means that versions \"1.5.3\" and \"1.4.0\" will be considered valid for incompatibility version \"1.4.5\" but \"2.1.0\" would not be valid."
+                        },
+                        "breaking": {
+                            "type": "boolean",
+                            "description": "Whether the mod does not work with the incompatible mod"
+                        },
+                        "platforms": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ShortPlatformIDOrGeneric"
+                            },
+                            "description": "If this incompatibility should only be on certain platforms, specify this property; by default, Geode assumes incompatibilities are used on all platforms."
+                        }
+                    },
+                    "required": [
+                        "version"
+                    ],
+                    "additionalProperties": false
+                }
+            ]
+        },
+        "Incompatibilities": {
+            "description": "List of mods this mod is incompatible with.",
+            "oneOf": [
+                {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/Incompatibility"
+                    }
+                },
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "$ref": "#/definitions/ModID",
+                                "description": "ID of the incompatibility.",
+                                "deprecated": true,
+                                "deprecationMessage": "Use the object-style \"incompatibilities\" key instead"
+                            },
+                            "version": {
+                                "$ref": "#/definitions/VersionComparable",
+                                "description": "Version of the incompatibility. Geode assumes the mod follows semver (https://semver.org); this means that versions \"1.5.3\" and \"1.4.0\" will be considered valid for incompatibility version \"1.4.5\" but \"2.1.0\" would not be valid."
+                            },
+                            "importance": {
+                                "oneOf": [
+                                    {
+                                        "const": "breaking",
+                                        "description": "This mod does not work with the incompatible mod."
+                                    },
+                                    {
+                                        "const": "conflicting",
+                                        "description": "This mod might work with the incompatible mod, but there will be bugs."
+                                    },
+                                    {
+                                        "const": "superseded",
+                                        "description": "This mod is a newer version/alternative for the incompatible mod. Geode will present this to the user and allow them to automatically migrate from the old mod to this one."
+                                    }
+                                ],
+                                "description": "How kind of an incompatibility this is."
+                            },
+                            "platforms": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/definitions/ShortPlatformIDOrGeneric"
+                                },
+                                "description": "If this incompatibility should only be on certain platforms, specify this property; by default, Geode assumes incompatibilities are used on all platforms."
+                            }
+                        },
+                        "required": [
+                            "id",
+                            "version",
+                            "importance"
+                        ],
+                        "additionalProperties": false
+                    }
+                }
+            ]
+        },
+        "SettingCommon": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Human-readable name for the setting. Used in the UI. If not present, the ID of the setting will be used instead"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of what the setting does"
+                },
+                "platforms": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ShortPlatformIDOrGeneric"
+                    },
+                    "description": "If this setting should only be available on certain platforms, specify this property; by default, Geode assumes settings are available on all platforms"
+                }
+            }
+        },
+        "ValueSettingCommon": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/SettingCommon"
+                }
+            ],
+            "properties": {
+                "enable-if": {
+                    "type": "string",
+                    "description": "Controls whether this setting should be enabled, based on the values of other settings. See (https://docs.geode-sdk.org/mods/settings#enable-if) for the syntax"
+                },
+                "enable-if-description": {
+                    "type": "string",
+                    "description": "If the \"enable-if\" clause is considerably complicated, you can use this to specify a human-readable description for what the user should do to enable the setting. If not provided, Geode will synthesize one from the \"enable-if\" clause itself. Should be formatted as an order on what to do to enable the setting, like \"Enable the Catfishing Feature\""
+                },
+                "requires-restart": {
+                    "type": "boolean",
+                    "description": "Whether this setting requires the game to be restarted whenever its value is changed"
+                }
+            }
+        },
+        "ArrowControl": {
+            "type": "object",
+            "properties": {
+                "arrows": {
+                    "type": "boolean",
+                    "description": "Enable the small (green) arrow controls"
+                },
+                "arrow-step": {
+                    "type": "number",
+                    "description": "Control how much the small (green) arrows should increment/decrement the setting's value when clicked"
+                },
+                "big-arrows": {
+                    "type": "boolean",
+                    "description": "Enable the secondary (pink) arrow controls"
+                },
+                "big-arrow-step": {
+                    "type": "number",
+                    "description": "Control how much the secondary (pink) arrows should increment/decrement the setting's value when clicked. This should be a larger value than the small (green) arrows"
+                },
+                "slider": {
+                    "type": "boolean",
+                    "description": "Enable the slider"
+                },
+                "slider-step": {
+                    "type": "number",
+                    "description": "Control the slider's snap step size"
+                },
+                "input": {
+                    "type": "boolean",
+                    "description": "Enable the text input"
+                }
+            },
+            "additionalProperties": false
+        },
+        "FileDialogControl": {
+            "type": "object",
+            "properties": {
+                "dialog": {
+                    "type": "string",
+                    "enum": [
+                        "open",
+                        "save"
+                    ],
+                    "description": "The dialog to show when the user clicks the file selection button in the UI"
+                },
+                "filters": {
+                    "type": "array",
+                    "description": "Filter options to show in the file pick dialog. The option \"All files (*.*)\" will always be included alongside these by default",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "description": {
+                                "type": "string",
+                                "description": "Filter description, like \"Level Files\""
+                            },
+                            "files": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "description": "File wildcards to match. Can be for example '*.gmd', '*.gmd2', 'Steve.txt'"
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "BooleanDefault": {
+            "oneOf": [
+                {
+                    "type": "boolean"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "win": {
+                            "type": "boolean"
+                        },
+                        "android": {
+                            "type": "boolean"
+                        },
+                        "mac": {
+                            "type": "boolean"
+                        },
+                        "ios": {
+                            "type": "boolean"
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            ]
+        },
+        "IntegerDefault": {
+            "oneOf": [
+                {
+                    "type": "integer"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "win": {
+                            "type": "integer"
+                        },
+                        "android": {
+                            "type": "integer"
+                        },
+                        "mac": {
+                            "type": "integer"
+                        },
+                        "ios": {
+                            "type": "integer"
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            ]
+        },
+        "NumberDefault": {
+            "oneOf": [
+                {
+                    "type": "number"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "win": {
+                            "type": "number"
+                        },
+                        "android": {
+                            "type": "number"
+                        },
+                        "mac": {
+                            "type": "number"
+                        },
+                        "ios": {
+                            "type": "number"
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            ]
+        },
+        "StringDefault": {
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "win": {
+                            "type": "string"
+                        },
+                        "android": {
+                            "type": "string"
+                        },
+                        "mac": {
+                            "type": "string"
+                        },
+                        "ios": {
+                            "type": "string"
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            ]
+        },
+        "RGBColorDefault": {
+            "oneOf": [
+                {
+                    "$ref": "#/definitions/ColorRGB"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "win": {
+                            "$ref": "#/definitions/ColorRGB"
+                        },
+                        "android": {
+                            "$ref": "#/definitions/ColorRGB"
+                        },
+                        "mac": {
+                            "$ref": "#/definitions/ColorRGB"
+                        },
+                        "ios": {
+                            "$ref": "#/definitions/ColorRGB"
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            ]
+        },
+        "RGBAColorDefault": {
+            "oneOf": [
+                {
+                    "$ref": "#/definitions/ColorRGBA"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "win": {
+                            "$ref": "#/definitions/ColorRGBA"
+                        },
+                        "android": {
+                            "$ref": "#/definitions/ColorRGBA"
+                        },
+                        "mac": {
+                            "$ref": "#/definitions/ColorRGBA"
+                        },
+                        "ios": {
+                            "$ref": "#/definitions/ColorRGBA"
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            ]
+        },
+        "KeybindDefaultBase": {
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            ]
+        },
+        "KeybindDefault": {
+            "oneOf": [
+                {
+                    "$ref": "#/definitions/KeybindDefaultBase"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "win": {
+                            "$ref": "#/definitions/KeybindDefaultBase"
+                        },
+                        "android": {
+                            "$ref": "#/definitions/KeybindDefaultBase"
+                        },
+                        "mac": {
+                            "$ref": "#/definitions/KeybindDefaultBase"
+                        },
+                        "ios": {
+                            "$ref": "#/definitions/KeybindDefaultBase"
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            ]
+        },
+        "Setting": {
+            "oneOf": [
+                {
+                    "description": "Title / section header",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/SettingCommon"
+                        }
+                    ],
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "const": "title"
+                        }
+                    },
+                    "required": [
+                        "type"
+                    ]
+                },
+                {
+                    "description": "Boolean toggle",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/ValueSettingCommon"
+                        }
+                    ],
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "const": "bool"
+                        },
+                        "default": {
+                            "$ref": "#/definitions/BooleanDefault"
+                        }
+                    },
+                    "required": [
+                        "type",
+                        "default"
+                    ]
+                },
+                {
+                    "description": "Integer value",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/ValueSettingCommon"
+                        }
+                    ],
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "const": "int"
+                        },
+                        "default": {
+                            "$ref": "#/definitions/IntegerDefault"
+                        },
+                        "min": {
+                            "type": "number",
+                            "description": "Minimum value for this setting. If not specified, the setting will have no minimum."
+                        },
+                        "max": {
+                            "type": "number",
+                            "description": "Maximum value for this setting. If not specified, the setting will have no maximum."
+                        },
+                        "control": {
+                            "$ref": "#/definitions/ArrowControl"
+                        }
+                    },
+                    "required": [
+                        "type",
+                        "default"
+                    ]
+                },
+                {
+                    "description": "Floating-point value",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/ValueSettingCommon"
+                        }
+                    ],
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "const": "float"
+                        },
+                        "default": {
+                            "$ref": "#/definitions/NumberDefault"
+                        },
+                        "min": {
+                            "type": "number",
+                            "description": "Minimum value for this setting. If not specified, the setting will have no minimum."
+                        },
+                        "max": {
+                            "type": "number",
+                            "description": "Maximum value for this setting. If not specified, the setting will have no maximum."
+                        },
+                        "control": {
+                            "$ref": "#/definitions/ArrowControl"
+                        }
+                    },
+                    "required": [
+                        "type",
+                        "default"
+                    ]
+                },
+                {
+                    "description": "String value",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/ValueSettingCommon"
+                        }
+                    ],
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "const": "string"
+                        },
+                        "default": {
+                            "$ref": "#/definitions/StringDefault"
+                        },
+                        "match": {
+                            "type": "string",
+                            "description": "A regex the string must match"
+                        },
+                        "filter": {
+                            "type": "string",
+                            "description": "List of all the allowed characters, similar to `CCTextInputNode`"
+                        },
+                        "one-of": {
+                            "type": "array",
+                            "description": "A list of the allowed values for the string. Turns the setting into a selection list instead of an input",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "required": [
+                        "type",
+                        "default"
+                    ]
+                },
+                {
+                    "description": "File path picker",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/ValueSettingCommon"
+                        }
+                    ],
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "const": "file"
+                        },
+                        "default": {
+                            "$ref": "#/definitions/StringDefault"
+                        },
+                        "control": {
+                            "$ref": "#/definitions/FileDialogControl"
+                        }
+                    },
+                    "required": [
+                        "type",
+                        "default"
+                    ]
+                },
+                {
+                    "description": "File path picker. Deprecated: use 'file' or 'folder' types instead",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/ValueSettingCommon"
+                        }
+                    ],
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "const": "path"
+                        },
+                        "default": {
+                            "$ref": "#/definitions/StringDefault"
+                        },
+                        "control": {
+                            "$ref": "#/definitions/FileDialogControl"
+                        }
+                    },
+                    "required": [
+                        "type",
+                        "default"
+                    ]
+                },
+                {
+                    "description": "Folder path picker",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/ValueSettingCommon"
+                        }
+                    ],
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "const": "folder"
+                        },
+                        "default": {
+                            "$ref": "#/definitions/StringDefault"
+                        }
+                    },
+                    "required": [
+                        "type",
+                        "default"
+                    ]
+                },
+                {
+                    "description": "RGB color picker",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/ValueSettingCommon"
+                        }
+                    ],
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "color",
+                                "rgb"
+                            ]
+                        },
+                        "default": {
+                            "$ref": "#/definitions/RGBColorDefault"
+                        }
+                    },
+                    "required": [
+                        "type",
+                        "default"
+                    ]
+                },
+                {
+                    "description": "RGBA color picker",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/ValueSettingCommon"
+                        }
+                    ],
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "const": "rgba"
+                        },
+                        "default": {
+                            "$ref": "#/definitions/RGBAColorDefault"
+                        }
+                    },
+                    "required": [
+                        "type",
+                        "default"
+                    ]
+                },
+                {
+                    "description": "Keybind setting",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/ValueSettingCommon"
+                        }
+                    ],
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "const": "keybind"
+                        },
+                        "default": {
+                            "$ref": "#/definitions/KeybindDefault"
+                        },
+                        "category": {
+                            "type": "string",
+                            "enum": [
+                                "universal",
+                                "gameplay",
+                                "editor"
+                            ],
+                            "description": "The category of the keybind, which controls where it appears in the keybind editor."
+                        },
+                        "migrate-from": {
+                            "type": "string",
+                            "description": "The original Custom Keybinds ID this keybind is migrating from."
+                        },
+                        "priority": {
+                            "type": "integer",
+                            "description": "The priority of this keybind compared to other keybinds with the same input. Lower number means higher priority."
+                        }
+                    },
+                    "required": [
+                        "type",
+                        "default"
+                    ]
+                },
+                {
+                    "description": "Legacy custom setting type. Deprecated: use custom setting types instead",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/SettingCommon"
+                        }
+                    ],
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "const": "custom"
+                        }
+                    },
+                    "required": [
+                        "type"
+                    ],
+                    "additionalProperties": true
+                },
+                {
+                    "description": "Custom setting type (e.g. 'custom:my-type')",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/SettingCommon"
+                        }
+                    ],
+                    "properties": {
+                        "type": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "type"
+                    ],
+                    "additionalProperties": true
+                }
+            ]
+        },
+        "Font": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "Path to the font's TTF / OTF file (relative to mod root folder)."
+                },
+                "size": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Font size in points."
+                },
+                "charset": {
+                    "type": "string",
+                    "default": "32-126,8226",
+                    "pattern": "^[0-9]+(-[0-9]+)?(,([0-9]+(-[0-9]+)?))*$",
+                    "description": "List of characters to include in the generated BM font. Default is \"32-126,8226\"."
+                },
+                "outline": {
+                    "type": "number",
+                    "default": 0,
+                    "description": "If specified, will generate a black outline of the provided size around the font's characters. Experimental!"
+                }
+            },
+            "required": [
+                "path",
+                "size"
+            ],
+            "additionalProperties": false
+        },
+        "Resources": {
+            "type": "object",
+            "properties": {
+                "files": {
+                    "type": "array",
+                    "description": "Files to include with the mod. Things like sounds, binaries, etc.",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "sprites": {
+                    "type": "array",
+                    "description": "Sprites to include with the mod. The sprites will automatically have UHD, HD and SD versions created of them.",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "spritesheets": {
+                    "type": "object",
+                    "description": "The mod's sprite sheets. Sprite sheets are better optimized than using individual image files, so using them for the majority of the sprites in your mod is recommended. List the names of the mod's spritesheets as keys, and as their values a list of files to include in the sheet.",
+                    "additionalProperties": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "fonts": {
+                    "type": "array",
+                    "description": "Fonts to include with the mod. Provided format should be TTF / OTF. Fonts will be converted automatically into GD-compatible BM fonts by Geode CLI before packaging. List the names of the fonts as keys.",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/Font"
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "ModJsonBase": {
+            "type": "object",
+            "properties": {
+                "geode": {
+                    "$ref": "#/definitions/Version",
+                    "description": "The version of Geode this mod targets. Must be the version you currently have installed on your machine"
+                },
+                "version": {
+                    "$ref": "#/definitions/Version",
+                    "description": "The version of this mod. Mods should follow strict semver (https://semver.org); this ensures that mods that use other mods as dependencies (https://docs.geode-sdk.org/mods/dependencies) can do so safely."
+                },
+                "gd": {
+                    "description": "What version of Geometry Dash this mod targets. Use \"*\" for any version, or specify a version. \"*\" is for mods that only interact with Cocos or other libraries, or can handle version checking themselves.",
+                    "oneOf": [
+                        {
+                            "$ref": "#/definitions/GDVersion"
+                        },
+                        {
+                            "type": "object",
+                            "properties": {
+                                "win": {
+                                    "$ref": "#/definitions/GDVersion"
+                                },
+                                "android": {
+                                    "$ref": "#/definitions/GDVersion"
+                                },
+                                "mac": {
+                                    "$ref": "#/definitions/GDVersion"
+                                },
+                                "ios": {
+                                    "$ref": "#/definitions/GDVersion"
+                                }
+                            },
+                            "additionalProperties": false
+                        }
+                    ]
+                },
+                "id": {
+                    "$ref": "#/definitions/ModID",
+                    "description": "ID of the mod. This is used to uniquely distinguish the mod in places like URLs, file names, etc.. Should be formatted as \"developer.mod-name\". Note that the ID should never be changed after initial release - that's what \"name\" is for!"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the mod. May be anything, but do note that GD usually has limits on what characters it can render."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Short, free-form description of the mod. Should be less than 45 characters long; use `about.md` for a more detailed description!",
+                    "maxLength": 45
+                },
+                "repository": {
+                    "type": "string",
+                    "format": "uri",
+                    "deprecated": true,
+                    "deprecationMessage": "Use the \"links\" key instead."
+                },
+                "links": {
+                    "type": "object",
+                    "description": "Links to websites and other online content related to the mod.",
+                    "properties": {
+                        "homepage": {
+                            "type": "string",
+                            "format": "uri",
+                            "description": "URL of the mod's home website."
+                        },
+                        "source": {
+                            "type": "string",
+                            "format": "uri",
+                            "description": "URL of the mod's Git repository, or wherever the mod's source code is available."
+                        },
+                        "community": {
+                            "type": "string",
+                            "format": "uri",
+                            "description": "A discussion community for the mod, like a Discord server."
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "issues": {
+                    "type": "object",
+                    "description": "Issue tracker for the mod.",
+                    "properties": {
+                        "info": {
+                            "type": "string",
+                            "description": "Free-form info about where and how to report issues. Supports markdown formatting."
+                        },
+                        "url": {
+                            "type": "string",
+                            "format": "uri",
+                            "description": "URL for posting issues. Usually the GitHub issues page."
+                        }
+                    },
+                    "required": [
+                        "info"
+                    ],
+                    "additionalProperties": false
+                },
+                "early-load": {
+                    "type": "boolean",
+                    "description": "Whether the mod should be loaded before the main game starts"
+                },
+                "tags": {
+                    "type": "array",
+                    "description": "Tags that describe what this mod is for. A recommended amount is 1-4 tags.",
+                    "items": {
+                        "$ref": "#/definitions/Tag"
+                    }
+                },
+                "api": {
+                    "type": "object",
+                    "description": "Define that this mod should be used as a dependency. If this key is present, the .lib file is automatically included in the .geode package.",
+                    "properties": {
+                        "include": {
+                            "type": "array",
+                            "description": "Headers to include with the mod. Supports globbing.",
+                            "default": [
+                                "include/*.hpp"
+                            ],
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "required": [
+                        "include"
+                    ],
+                    "additionalProperties": false
+                },
+                "dependencies": {
+                    "$ref": "#/definitions/Dependencies"
+                },
+                "incompatibilities": {
+                    "$ref": "#/definitions/Incompatibilities"
+                },
+                "settings": {
+                    "type": "object",
+                    "description": "The mod's settings. These are editable by the user in-game through the mod's settings page. See the docs page (https://docs.geode-sdk.org/mods/settings) for more information.",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/Setting"
+                    }
+                },
+                "resources": {
+                    "$ref": "#/definitions/Resources"
+                }
+            },
+            "required": [
+                "geode",
+                "version",
+                "gd",
+                "id",
+                "name"
+            ]
+        }
+    },
+    "oneOf": [
+        {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/ModJsonBase"
+                }
+            ],
+            "properties": {
+                "developer": {
+                    "type": "string",
+                    "description": "Name of the mod developer. If the mod has multiple developers, use the \"developers\" key, or use a team name like \"Geode Team\""
+                }
+            },
+            "required": [
+                "developer"
+            ],
+            "not": {
+                "required": [
+                    "developers"
+                ]
+            }
+        },
+        {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/ModJsonBase"
+                }
+            ],
+            "properties": {
+                "developers": {
+                    "type": "array",
+                    "description": "Names of the mod's developers",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "developers"
+            ],
+            "not": {
+                "required": [
+                    "developer"
+                ]
+            }
+        }
+    ]
+}
