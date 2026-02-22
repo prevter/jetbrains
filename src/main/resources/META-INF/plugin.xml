@@ -4,8 +4,22 @@
     <vendor url="https://geode-sdk.org/">Geode Team</vendor>
 
     <description><![CDATA[
-        Support for Geode SDK, the Geometry Dash modding framework.
-        Features useful utilities for developing Geometry Dash mods.
+        <p>
+            Support for <a href="https://docs.geode-sdk.org/">Geode</a>,
+            the <a href="https://store.steampowered.com/app/322170/Geometry_Dash/">Geometry Dash</a>
+            modding framework. Includes utilities for developing Geometry Dash mods in CLion.
+        </p>
+        <p>
+            Requires the <a href="https://github.com/geode-sdk/geode">Geode SDK</a>
+            and <a href="https://github.com/geode-sdk/cli">Geode CLI</a>.
+        </p>
+        <ul>
+            <li>Validation for <code>mod.json</code></li>
+            <li>Colorization for <code>FLAlertLayer</code> tags</li>
+            <li>Inline color hints for <code>ccColor3B</code>, <code>ccColor4B</code>, <code>ccColor4F</code>, and <code>ccc3</code>/<code>ccc4</code></li>
+            <li>Project template for creating Geode mods in a few clicks</li>
+            <li>Inspections for common mistakes in mod development</li>
+        </ul>
     ]]></description>
 
     <depends>com.intellij.modules.compose</depends>
