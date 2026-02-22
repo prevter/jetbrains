@@ -1248,14 +1248,6 @@
                     "type": "string",
                     "description": "Name of the mod developer. If the mod has multiple developers, use the \"developers\" key, or use a team name like \"Geode Team\""
                 }
-            },
-            "required": [
-                "developer"
-            ],
-            "not": {
-                "required": [
-                    "developers"
-                ]
             }
         },
         {
@@ -1272,14 +1264,6 @@
                         "type": "string"
                     }
                 }
-            },
-            "required": [
-                "developers"
-            ],
-            "not": {
-                "required": [
-                    "developer"
-                ]
             }
         }
     ]
