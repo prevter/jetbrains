@@ -2,11 +2,11 @@ plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "2.1.20"
     id("org.jetbrains.intellij.platform") version "2.10.2"
-    id("org.jetbrains.kotlin.plugin.compose") version "2.1.20"
+    // id("org.jetbrains.kotlin.plugin.compose") version "2.1.20"
 }
 
 group = "org.geode-sdk.clion"
-version = "1.0-SNAPSHOT"
+version = providers.environmentVariable("RELEASE_VERSION").orElse("1.0.0-dev").get()
 
 repositories {
     mavenCentral()
@@ -20,10 +20,9 @@ dependencies {
         clion("2025.3.2")
         testFramework(org.jetbrains.intellij.platform.gradle.TestFrameworkType.Platform)
 
-        composeUI()
+        // composeUI()
 
         bundledPlugin("com.intellij.modules.json")
-        bundledPlugin("com.intellij.clion")
         bundledPlugin("Git4Idea")
     }
 }
@@ -31,12 +30,23 @@ dependencies {
 intellijPlatform {
     pluginConfiguration {
         ideaVersion {
-            sinceBuild = "252.25557"
+            sinceBuild = "253"
         }
 
         changeNotes = """
-            Initial version
+            <ul>
+                <li>JSON schema validation for <code>mod.json</code></li>
+                <li>Inline color previews for Cocos2d-x color types</li>
+                <li>Syntax highlighting for FLAlertLayer color tags in strings and Markdown</li>
+                <li>New project wizard for creating Geode mods</li>
+                <li>Code inspections for common mistakes (std::cout, dynamic_cast, sto*)</li>
+                <li>Code inspections for getSettingValue misuse</li>
+            </ul>
         """.trimIndent()
+    }
+    publishing {
+        token = providers.environmentVariable("PUBLISH_TOKEN")
+        channels = listOf("stable")
     }
 }
 

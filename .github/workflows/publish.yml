@@ -26,14 +26,20 @@ jobs:
 
       - name: Get tag name
         id: tag
-        run: echo "name=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+        run: |
+          tag="${GITHUB_REF#refs/tags/}"
+          echo "name=$tag" >> $GITHUB_OUTPUT
+          echo "version=${tag#v}" >> $GITHUB_OUTPUT
 
       - name: Build & verify plugin
+        env:
+          RELEASE_VERSION: ${{ steps.tag.outputs.version }}
         run: ./gradlew buildPlugin verifyPlugin --stacktrace
 
       - name: Publish to JetBrains Marketplace
         env:
           PUBLISH_TOKEN: ${{ secrets.JETBRAINS_TOKEN }}
+          RELEASE_VERSION: ${{ steps.tag.outputs.version }}
         run: ./gradlew publishPlugin --stacktrace
 
       - name: Create GitHub Release

@@ -24,6 +24,8 @@ jobs:
         uses: gradle/actions/setup-gradle@v5
 
       - name: Build plugin
+        env:
+          RELEASE_VERSION: "1.0.0" # temporarily for the first ever release
         run: ./gradlew buildPlugin --stacktrace
 
       - name: Upload build artifact
