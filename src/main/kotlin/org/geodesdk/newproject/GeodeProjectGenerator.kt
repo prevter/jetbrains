@@ -1,4 +1,4 @@
-package org.geodesdk.clion.newproject
+package org.geodesdk.newproject
 
 import com.intellij.facet.ui.ValidationResult
 import com.intellij.ide.util.projectWizard.AbstractNewProjectStep

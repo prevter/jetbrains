@@ -1,4 +1,4 @@
-package org.geodesdk.clion
+package org.geodesdk
 
 import com.intellij.DynamicBundle
 import org.jetbrains.annotations.Nls

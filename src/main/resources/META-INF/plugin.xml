@@ -1,5 +1,5 @@
 <idea-plugin>
-    <id>org.geode-sdk.clion</id>
+    <id>org.geode-sdk.geode</id>
     <name>Geode</name>
     <vendor url="https://geode-sdk.org/">Geode Team</vendor>
 
@@ -31,52 +31,52 @@
     <resource-bundle>messages.InspectionsBundle</resource-bundle>
 
     <extensions defaultExtensionNs="JavaScript.JsonSchema">
-        <ProviderFactory implementation="org.geodesdk.clion.ModSchemaProvider"/>
+        <ProviderFactory implementation="org.geodesdk.ModSchemaProvider"/>
     </extensions>
 
     <extensions defaultExtensionNs="com.intellij">
-        <colorProvider implementation="org.geodesdk.clion.CCColorProvider"/>
+        <colorProvider implementation="org.geodesdk.CCColorProvider"/>
 
-        <annotator language="C++" implementationClass="org.geodesdk.clion.GDColorTagAnnotation"/>
-        <annotator language="ObjectiveC" implementationClass="org.geodesdk.clion.GDColorTagAnnotation"/>
-        <annotator language="Markdown" implementationClass="org.geodesdk.clion.GDColorTagAnnotation"/>
+        <annotator language="C++" implementationClass="org.geodesdk.GDColorTagAnnotation"/>
+        <annotator language="ObjectiveC" implementationClass="org.geodesdk.GDColorTagAnnotation"/>
+        <annotator language="Markdown" implementationClass="org.geodesdk.GDColorTagAnnotation"/>
 
-        <directoryProjectGenerator implementation="org.geodesdk.clion.newproject.GeodeProjectGenerator"/>
+        <directoryProjectGenerator implementation="org.geodesdk.newproject.GeodeProjectGenerator"/>
 
         <localInspection language="" bundle="messages.InspectionsBundle"
                          shortName="GeodeCout"
                          groupName="Geode SDK"
                          enabledByDefault="true"
                          level="WARNING"
-                         implementationClass="org.geodesdk.clion.lint.GeodeCoutInspection"
+                         implementationClass="org.geodesdk.lint.GeodeCoutInspection"
                          key="inspection.geode.cout.display.name"/>
         <localInspection language="" bundle="messages.InspectionsBundle"
                          shortName="GeodeStoi"
                          groupName="Geode SDK"
                          enabledByDefault="true"
                          level="ERROR"
-                         implementationClass="org.geodesdk.clion.lint.GeodeStoiInspection"
+                         implementationClass="org.geodesdk.lint.GeodeStoiInspection"
                          key="inspection.geode.stoi.display.name"/>
         <localInspection language="" bundle="messages.InspectionsBundle"
                          shortName="GeodeDynamicCast"
                          groupName="Geode SDK"
                          enabledByDefault="true"
                          level="ERROR"
-                         implementationClass="org.geodesdk.clion.lint.GeodeDynamicCastInspection"
+                         implementationClass="org.geodesdk.lint.GeodeDynamicCastInspection"
                          key="inspection.geode.dynamic_cast.display.name"/>
         <localInspection language="" bundle="messages.InspectionsBundle"
                          shortName="GeodeUnknownSetting"
                          groupName="Geode SDK"
                          enabledByDefault="true"
                          level="WARNING"
-                         implementationClass="org.geodesdk.clion.lint.GeodeUnknownSettingInspection"
+                         implementationClass="org.geodesdk.lint.GeodeUnknownSettingInspection"
                          key="inspection.geode.unknown_setting.display.name"/>
         <localInspection language="" bundle="messages.InspectionsBundle"
                          shortName="GeodeSettingTypeMismatch"
                          groupName="Geode SDK"
                          enabledByDefault="true"
                          level="WARNING"
-                         implementationClass="org.geodesdk.clion.lint.GeodeSettingTypeMismatchInspection"
+                         implementationClass="org.geodesdk.lint.GeodeSettingTypeMismatchInspection"
                          key="inspection.geode.setting_type_mismatch.display.name"/>
     </extensions>
 </idea-plugin>

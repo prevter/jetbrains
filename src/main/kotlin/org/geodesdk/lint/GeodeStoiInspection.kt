@@ -1,11 +1,13 @@
-package org.geodesdk.clion.lint
+package org.geodesdk.lint
 
 import com.intellij.codeInspection.LocalInspectionTool
+import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
+import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
-import org.geodesdk.clion.GeodeModJsonService
-import org.geodesdk.clion.InspectionsMessageBundle
-import org.geodesdk.clion.utils.isCppFile
+import org.geodesdk.GeodeModJsonService
+import org.geodesdk.InspectionsMessageBundle
+import org.geodesdk.utils.isCppFile
 
 private val STO_NAMES = listOf("stoi", "stol", "stoll", "stoul", "stoull", "stof", "stod", "stold")
 
@@ -16,7 +18,7 @@ class GeodeStoiInspection : LocalInspectionTool() {
 
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) : PsiElementVisitor =
         object : PsiElementVisitor() {
-            override fun visitElement(element: com.intellij.psi.PsiElement) {
+            override fun visitElement(element: PsiElement) {
                 if (!GeodeModJsonService.getInstance(element.project).isGeodeMod()) return
                 if (element.firstChild != null) return
                 if (!element.containingFile.isCppFile()) return
@@ -25,7 +27,7 @@ class GeodeStoiInspection : LocalInspectionTool() {
                 holder.registerProblem(
                     element,
                     InspectionsMessageBundle.message("inspection.geode.stoi.problem.description"),
-                    com.intellij.codeInspection.ProblemHighlightType.GENERIC_ERROR
+                    ProblemHighlightType.GENERIC_ERROR
                 )
             }
         }

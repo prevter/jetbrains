@@ -1,4 +1,4 @@
-package org.geodesdk.clion
+package org.geodesdk
 
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.service

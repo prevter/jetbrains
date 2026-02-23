@@ -1,13 +1,13 @@
-package org.geodesdk.clion.lint
+package org.geodesdk.lint
 
 import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
-import org.geodesdk.clion.GeodeModJsonService
-import org.geodesdk.clion.InspectionsMessageBundle
-import org.geodesdk.clion.utils.isCppFile
+import org.geodesdk.GeodeModJsonService
+import org.geodesdk.InspectionsMessageBundle
+import org.geodesdk.utils.isCppFile
 
 class GeodeCoutInspection : LocalInspectionTool() {
     override fun getGroupDisplayName() = InspectionsMessageBundle.message("inspection.geode.cout.group")

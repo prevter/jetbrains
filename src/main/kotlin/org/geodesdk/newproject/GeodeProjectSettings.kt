@@ -1,4 +1,4 @@
-package org.geodesdk.clion.newproject
+package org.geodesdk.newproject
 
 enum class GeodeTemplate(val displayName: String, val needsRepoInput: Boolean) {
     DEFAULT("Default", false),

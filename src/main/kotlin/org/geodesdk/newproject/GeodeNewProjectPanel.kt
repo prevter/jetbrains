@@ -1,4 +1,4 @@
-package org.geodesdk.clion.newproject
+package org.geodesdk.newproject
 
 import com.intellij.openapi.observable.properties.PropertyGraph
 import com.intellij.openapi.ui.ValidationInfo

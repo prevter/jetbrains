@@ -1,12 +1,13 @@
-package org.geodesdk.clion.lint
+package org.geodesdk.lint
 
 import com.intellij.codeInspection.*
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.project.Project
+import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
-import org.geodesdk.clion.GeodeModJsonService
-import org.geodesdk.clion.InspectionsMessageBundle
-import org.geodesdk.clion.utils.isCppFile
+import org.geodesdk.GeodeModJsonService
+import org.geodesdk.InspectionsMessageBundle
+import org.geodesdk.utils.isCppFile
 
 class GeodeDynamicCastInspection : LocalInspectionTool() {
     override fun getGroupDisplayName() = InspectionsMessageBundle.message("inspection.geode.dynamic_cast.group")
@@ -15,7 +16,7 @@ class GeodeDynamicCastInspection : LocalInspectionTool() {
 
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) : PsiElementVisitor =
         object : PsiElementVisitor() {
-            override fun visitElement(element: com.intellij.psi.PsiElement) {
+            override fun visitElement(element: PsiElement) {
                 if (!GeodeModJsonService.getInstance(element.project).isGeodeMod()) return
                 if (element.firstChild != null) return
                 if (!element.containingFile.isCppFile()) return

@@ -1,4 +1,4 @@
-package org.geodesdk.clion.utils
+package org.geodesdk.utils
 
 import com.intellij.psi.PsiFile
 

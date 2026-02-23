@@ -1,12 +1,14 @@
-package org.geodesdk.clion
+package org.geodesdk
 
 import com.intellij.lang.Language
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.ElementColorProvider
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
-import org.geodesdk.clion.utils.isCppFile
+import org.geodesdk.utils.isCppFile
 import java.awt.Color
+import java.util.Locale
+import kotlin.text.iterator
 
 enum class ColorStructType(
     val keyword: String,
@@ -150,7 +152,7 @@ class CCColorProvider : ElementColorProvider {
         val value = component.coerceIn(0, 255)
         return when {
             isFloat -> {
-                val s = String.format(java.util.Locale.US, "%.4f", value / 255f).trimEnd('0')
+                val s = String.format(Locale.US, "%.4f", value / 255f).trimEnd('0')
                 "${s}f"
             }
 
