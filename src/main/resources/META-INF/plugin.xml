@@ -78,5 +78,7 @@
                          level="WARNING"
                          implementationClass="org.geodesdk.lint.GeodeSettingTypeMismatchInspection"
                          key="inspection.geode.setting_type_mismatch.display.name"/>
+        <configurationType
+                implementation="org.geodesdk.execution.LaunchGameConfigurationType"/>
     </extensions>
 </idea-plugin>

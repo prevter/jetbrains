@@ -23,6 +23,7 @@ import com.intellij.util.IconUtil
 import git4idea.commands.Git
 import git4idea.commands.GitCommand
 import git4idea.commands.GitLineHandler
+import org.geodesdk.icons.GeodeIcons
 import java.io.File
 import java.net.URI
 import javax.swing.Icon
@@ -38,10 +39,7 @@ class GeodeProjectGenerator : DirectoryProjectGeneratorBase<GeodeProjectSettings
 
     override fun getName() = "Geode Mod"
     override fun getLogo(): Icon {
-        val icon = IconLoader.getIcon("/icons/geode.png", javaClass)
-        val targetSize = 16
-        val scale = min(targetSize.toFloat() / icon.iconWidth, targetSize.toFloat() / icon.iconHeight)
-        return IconUtil.scale(icon, null, scale)
+        return GeodeIcons.Geode()
     }
 
     override fun validate(baseDirPath: String): ValidationResult {
