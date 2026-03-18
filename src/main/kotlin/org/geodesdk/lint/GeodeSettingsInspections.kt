@@ -19,17 +19,17 @@ private val ACCEPTED_CPP_TYPES: Map<String, Set<String>> = mapOf(
         "unsigned long", "unsigned long long",
         "long long int", "unsigned long long int",
         "long int", "unsigned long int",
-        "std::size_t", "size_t",
+        "std :: size_t", "size_t",
         "int32_t", "uint32_t"
     ),
     "float" to setOf("double", "float", "long double"),
-    "string" to setOf("std::string", "string"),
-    "file" to setOf("std::filesystem::path", "filesystem::path", "fs::path"),
-    "folder" to setOf("std::filesystem::path", "filesystem::path", "fs::path"),
-    "color" to setOf("cocos2d::ccColor3B", "ccColor3B"),
-    "rgb" to setOf("cocos2d::ccColor3B", "ccColor3B"),
-    "rgba" to setOf("cocos2d::ccColor4B", "ccColor4B"),
-    "keybind" to setOf("keybinds::Keybind", "Keybind"),
+    "string" to setOf("std :: string", "string"),
+    "file" to setOf("std :: filesystem :: path", "filesystem :: path", "fs :: path"),
+    "folder" to setOf("std :: filesystem :: path", "filesystem :: path", "fs :: path"),
+    "color" to setOf("cocos2d :: ccColor3B", "ccColor3B"),
+    "rgb" to setOf("cocos2d :: ccColor3B", "ccColor3B"),
+    "rgba" to setOf("cocos2d :: ccColor4B", "ccColor4B"),
+    "keybind" to setOf("keybinds :: Keybind", "Keybind"),
 )
 
 private data class SettingCall(
