@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "org.geode-sdk.clion"
-version = providers.environmentVariable("RELEASE_VERSION").orElse("1.0.0-dev").get()
+version = providers.environmentVariable("RELEASE_VERSION").orElse("1.1.0-dev").get()
 
 repositories {
     mavenCentral()
@@ -35,12 +35,10 @@ intellijPlatform {
 
         changeNotes = """
             <ul>
-                <li>JSON schema validation for <code>mod.json</code></li>
-                <li>Inline color previews for Cocos2d-x color types</li>
-                <li>Syntax highlighting for FLAlertLayer color tags in strings and Markdown</li>
-                <li>New project wizard for creating Geode mods</li>
-                <li>Code inspections for common mistakes (std::cout, dynamic_cast, sto*)</li>
-                <li>Code inspections for getSettingValue misuse</li>
+                <li><code>Launch Geometry Dash</code> run configuration</li>
+                <li>Support color tags in JSON files</li>
+                <li>Fixed settings lint not correctly validating types with namespaces</li>
+                <li>Fixed old dependency style schema</li>
             </ul>
         """.trimIndent()
     }
