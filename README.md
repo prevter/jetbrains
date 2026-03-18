@@ -17,3 +17,4 @@ but for CLion users.
 * Inline color hints for `ccColor3B`, `ccColor4B`, `ccColor4F` and `ccc3`/`ccc4` macros
 * Project template for creating Geode mods in few clicks
 * Several lints for common mistakes in mod development
+* `Launch Geometry Dash` run configuration
