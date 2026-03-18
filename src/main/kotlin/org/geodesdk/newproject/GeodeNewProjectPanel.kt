@@ -4,7 +4,6 @@ import com.intellij.openapi.observable.properties.PropertyGraph
 import com.intellij.openapi.ui.ValidationInfo
 import com.intellij.ui.dsl.builder.AlignX
 import com.intellij.ui.dsl.builder.Panel
-import com.intellij.ui.dsl.builder.Row
 import com.intellij.ui.dsl.builder.bindItem
 import com.intellij.ui.dsl.builder.bindSelected
 import com.intellij.ui.dsl.builder.bindText
@@ -13,14 +12,15 @@ import org.geodesdk.utils.GeodeUtils
 class GeodeNewProjectPanel {
     var onAnyChange: (() -> Unit)? = null
 
-    var sdkVersion = GeodeUtils.detectGeodeSdkVersion();
+    var sdkVersion = GeodeUtils.detectGeodeSdkVersion()
+    var defaultDeveloper = GeodeUtils.detectGeodeDefaultDeveloper()
 
     private val graph = PropertyGraph()
     private val templateProp = graph.property(GeodeTemplate.DEFAULT)
     private val repoInputProp = graph.property("")
     private val nameProp = graph.property("")
     private val versionProp = graph.property("v1.0.0")
-    private val developerProp = graph.property(sdkVersion ?: "")
+    private val developerProp = graph.property(defaultDeveloper ?: "")
     private val descriptionProp = graph.property("")
     private val geodeVerProp = graph.property(sdkVersion ?: "")
     private val githubActProp = graph.property(true)
