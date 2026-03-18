@@ -40,6 +40,7 @@
         <annotator language="C++" implementationClass="org.geodesdk.GDColorTagAnnotation"/>
         <annotator language="ObjectiveC" implementationClass="org.geodesdk.GDColorTagAnnotation"/>
         <annotator language="Markdown" implementationClass="org.geodesdk.GDColorTagAnnotation"/>
+        <annotator language="JSON" implementationClass="org.geodesdk.GDColorTagAnnotation"/>
 
         <directoryProjectGenerator implementation="org.geodesdk.newproject.GeodeProjectGenerator"/>
 
