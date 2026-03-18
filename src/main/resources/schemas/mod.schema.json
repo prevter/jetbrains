@@ -255,37 +255,37 @@
                         "properties": {
                             "id": {
                                 "$ref": "#/definitions/ModID",
-                                "description": "ID of the incompatibility.",
+                                "description": "ID of the dependency.",
                                 "deprecated": true,
-                                "deprecationMessage": "Use the object-style \"incompatibilities\" key instead"
+                                "deprecationMessage": "Use the object-style \"dependencies\" key instead"
                             },
                             "version": {
                                 "$ref": "#/definitions/Version",
-                                "description": "Version of the incompatibility. Geode assumes the mod follows semver (https://semver.org); this means that versions \"1.5.3\" and \"1.4.0\" will be considered valid for incompatibility version \"1.4.5\" but \"2.1.0\" would not be valid."
+                                "description": "Version of the dependency. Geode assumes the mod follows semver (https://semver.org); this means that versions \"1.5.3\" and \"1.4.0\" will be considered valid for dependency version \"1.4.5\" but \"2.1.0\" would not be valid."
                             },
                             "importance": {
                                 "oneOf": [
                                     {
-                                        "const": "breaking",
-                                        "description": "This mod does not work with the incompatible mod."
+                                        "const": "required",
+                                        "description": "This mod is required for the mod to work."
                                     },
                                     {
-                                        "const": "conflicting",
-                                        "description": "This mod might work with the incompatible mod, but there will be bugs."
+                                        "const": "recommended",
+                                        "description": "This mod is not required, but the mod will automatically install this dependency."
                                     },
                                     {
-                                        "const": "superseded",
-                                        "description": "This mod is a newer version/alternative for the incompatible mod. Geode will present this to the user and allow them to automatically migrate from the old mod to this one."
+                                        "const": "suggested",
+                                        "description": "This mod is not required and will not be automatically installed. Used for optional (Event API) dependencies, to fetch the headers from it."
                                     }
                                 ],
-                                "description": "What kind of an incompatibility this is."
+                                "description": "What kind of an dependency this is."
                             },
                             "platforms": {
                                 "type": "array",
                                 "items": {
                                     "$ref": "#/definitions/ShortPlatformIDOrGeneric"
                                 },
-                                "description": "If this incompatibility should only be on certain platforms, specify this property; by default, Geode assumes incompatibilities are used on all platforms."
+                                "description": "If this dependency should only be on certain platforms, specify this property; by default, Geode assumes dependencies are used on all platforms."
                             }
                         },
                         "required": [
