@@ -19,6 +19,7 @@
             <li>Inline color hints for <code>ccColor3B</code>, <code>ccColor4B</code>, <code>ccColor4F</code>, and <code>ccc3</code>/<code>ccc4</code></li>
             <li>Project template for creating Geode mods in a few clicks</li>
             <li>Inspections for common mistakes in mod development</li>
+            <li><code>Launch Geometry Dash</code> run configuration</li>
         </ul>
     ]]></description>
 

@@ -46,6 +46,11 @@ intellijPlatform {
         token = providers.environmentVariable("PUBLISH_TOKEN")
         channels = listOf("stable")
     }
+    pluginVerification {
+        ides {
+            recommended()
+        }
+    }
 }
 
 tasks {
