@@ -4,44 +4,25 @@ import com.intellij.openapi.observable.properties.PropertyGraph
 import com.intellij.openapi.ui.ValidationInfo
 import com.intellij.ui.dsl.builder.AlignX
 import com.intellij.ui.dsl.builder.Panel
-import com.intellij.ui.dsl.builder.Row
 import com.intellij.ui.dsl.builder.bindItem
 import com.intellij.ui.dsl.builder.bindSelected
 import com.intellij.ui.dsl.builder.bindText
-
-private val GEODE_VERSION_REGEX = Regex("""Geode SDK version:\s*(\S+)""")
-private val GEODE_DEVELOPER_REGEX = Regex("""default-developer\s*=\s*(.+)""")
-
-private fun runGeodeCli(vararg args: String): String? = try {
-    val process = ProcessBuilder("geode", *args)
-        .redirectErrorStream(true)
-        .start()
-    val output = process.inputStream.bufferedReader().readText()
-    process.waitFor()
-    output.takeIf { process.exitValue() == 0 }
-} catch (_: Exception) {
-    null
-}
-
-fun detectGeodeSdkVersion(): String? =
-    runGeodeCli("sdk", "version")
-        ?.let { GEODE_VERSION_REGEX.find(it)?.groupValues?.get(1) }
-
-fun detectGeodeDefaultDeveloper(): String? =
-    runGeodeCli("config", "get", "default-developer")
-        ?.let { GEODE_DEVELOPER_REGEX.find(it)?.groupValues?.get(1)?.trim() }
+import org.geodesdk.utils.GeodeUtils
 
 class GeodeNewProjectPanel {
     var onAnyChange: (() -> Unit)? = null
+
+    var sdkVersion = GeodeUtils.detectGeodeSdkVersion()
+    var defaultDeveloper = GeodeUtils.detectGeodeDefaultDeveloper()
 
     private val graph = PropertyGraph()
     private val templateProp = graph.property(GeodeTemplate.DEFAULT)
     private val repoInputProp = graph.property("")
     private val nameProp = graph.property("")
     private val versionProp = graph.property("v1.0.0")
-    private val developerProp = graph.property(detectGeodeDefaultDeveloper() ?: "")
+    private val developerProp = graph.property(defaultDeveloper ?: "")
     private val descriptionProp = graph.property("")
-    private val geodeVerProp = graph.property(detectGeodeSdkVersion() ?: "")
+    private val geodeVerProp = graph.property(sdkVersion ?: "")
     private val githubActProp = graph.property(true)
     private val removeComProp = graph.property(false)
     private val needsRepoProp = graph.property(false)
